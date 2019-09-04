@@ -14,15 +14,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
- * @author: Farben
- * @description: ShiroRealm -在Shiro中，最终是通过Realm来获取应用程序中的用户、角色及权限信息的
+ * @author: wangsaichao
+ * @date: 2018/5/10
+ * @description: 在Shiro中，最终是通过Realm来获取应用程序中的用户、角色及权限信息的
  * 在Realm中会直接从我们的数据源中获取Shiro需要的验证信息。可以说，Realm是专用于安全框架的DAO.
- * @create: 2019/8/29-13:48
- **/
+ */
 public class ShiroRealm extends AuthorizingRealm {
 
-      @Autowired
-      SysUserMapper sysUserMapper;
+    @Autowired
+    private SysUserMapper sysUserMapper;
+
 
 
     /**
@@ -40,11 +41,11 @@ public class ShiroRealm extends AuthorizingRealm {
 
         //获取用户名 密码 第二种方式
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
-        String loginName = usernamePasswordToken.getUsername();
+        String username = usernamePasswordToken.getUsername();
         String password = new String(usernamePasswordToken.getPassword());
 
         //从数据库查询用户信息
-        SysUser user =sysUserMapper.selectByLoginName(loginName);
+        SysUser user =sysUserMapper.selectByLoginName(username);
 
         //可以在这里直接对用户名校验,或者调用 CredentialsMatcher 校验
         if (user == null) {
@@ -88,21 +89,17 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
-
         //获取用户
-        String loginName = (String)SecurityUtils.getSubject().getPrincipal();
-       //需要单独根据 loginName 从数据库查询用户信息
-        SysUser user = new SysUser();
-        //添加角色
+        String loginName = (String) SecurityUtils.getSubject().getPrincipal();
+
         SimpleAuthorizationInfo authorizationInfo =  new SimpleAuthorizationInfo();
 
         //获取用户权限
-        List<Permission> permissions = sysUserMapper.selectAllPermission(loginName);
+        List<Permission> permissions =sysUserMapper.selectAllPermission(loginName);
         //添加权限
         for (Permission permission:permissions) {
             authorizationInfo.addStringPermission(permission.getPerCode());
         }
-
         return authorizationInfo;
     }
 
@@ -151,21 +148,4 @@ public class ShiroRealm extends AuthorizingRealm {
         clearAllCachedAuthorizationInfo();
     }
 
-
-    /**
-     * 自定义方法：清除指定用户认证缓存
-     *  @param userName 需要清除缓存的用户名
-     */
-    public void removeUserCachedAuthenticationInfo(String userName){
-        getAuthenticationCache().remove(userName);
-    }
-
-
-    /**
-     * 自定义方法：清除指定用户授权缓存
-     * @param userName 需要清除缓存的用户名
-     */
-    public void removeUserCachedAuthorizationInfo(String userName){
-        getAuthorizationCache().remove(userName);
-    }
 }

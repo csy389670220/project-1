@@ -2,10 +2,7 @@ package com.cn.cms.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.resource.ResourceUrlProvider;
 import org.springframework.web.servlet.resource.ResourceUrlProviderExposingInterceptor;
 
@@ -15,7 +12,7 @@ import org.springframework.web.servlet.resource.ResourceUrlProviderExposingInter
  * @create: 2019/8/29-13:52
  **/
 @Configuration
-public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
+public class MyWebMvcConfigurerAdapter implements WebMvcConfigurer {
 
     @Bean
     public ResourceUrlProvider resourceUrlProvider(){
@@ -30,7 +27,6 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截
         registry.addInterceptor(new ResourceUrlProviderExposingInterceptor(resourceUrlProvider())).addPathPatterns("/**");
-        super.addInterceptors(registry);
     }
 
     /**
@@ -39,7 +35,6 @@ public class MyWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
      */
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        super.configurePathMatch(configurer);
         // 常用的两种
         // 匹配结尾 / :会识别 url 的最后一个字符是否为 /
         // 设置为true: localhost:8080/test 与 localhost:8080/test/ 等价

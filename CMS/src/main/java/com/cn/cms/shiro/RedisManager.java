@@ -3,12 +3,16 @@ package com.cn.cms.shiro;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 
 /**
  * @author: Farben
@@ -26,7 +30,7 @@ public class RedisManager {
      * @param key 键
      * @param time 时间(秒)
      */
-    public void expire(String key, long time){
+    public void expire(String key,long time){
         redisTemplate.expire(key, time, TimeUnit.SECONDS);
     }
 
@@ -44,7 +48,7 @@ public class RedisManager {
      * @param key 可以传一个值 或多个
      */
     @SuppressWarnings("unchecked")
-    public void del(String... key){
+    public void del(String ... key){
         if(key!=null&&key.length>0){
             if(key.length==1){
                 redisTemplate.delete(key[0]);
@@ -77,7 +81,7 @@ public class RedisManager {
      * @param key 键
      * @param value 值
      */
-    public void set(String key, Object value) {
+    public void set(String key,Object value) {
         redisTemplate.opsForValue().set(key, value);
     }
 
@@ -87,7 +91,7 @@ public class RedisManager {
      * @param value 值
      * @param time 时间(秒) time要大于0 如果time小于等于0 将设置无限期
      */
-    public void set(String key, Object value, long time){
+    public void set(String key,Object value,long time){
         if(time>0){
             redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
         }else{
@@ -124,7 +128,7 @@ public class RedisManager {
      * @param key
      * @return
      */
-    public Long scanSize( String key){
+    public Long scanSize(String key){
         long dbSize = this.redisTemplate.execute(new RedisCallback<Long>() {
 
             @Override

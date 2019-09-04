@@ -16,14 +16,12 @@ import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.SimpleCookie;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.web.servlet.ErrorPage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import javax.servlet.Filter;
@@ -33,10 +31,10 @@ import java.util.LinkedHashMap;
 import java.util.Properties;
 
 /**
- * @author: Farben
- * @description: ShiroConfig： Shiro配置
- * @create: 2019/8/30-14:31
- **/
+ * @author: wangsaichao
+ * @date: 2018/5/10
+ * @description: Shiro配置
+ */
 @Configuration
 public class ShiroConfig {
 
@@ -77,11 +75,12 @@ public class ShiroConfig {
         //配置不登录可以访问的资源，anon 表示资源都可以匿名访问
         //配置记住我或认证通过可以访问的地址
         filterChainDefinitionMap.put("/", "anon");
-        // 静态资源生效
-        filterChainDefinitionMap.put("/thirdparty/**", "anon");
+        filterChainDefinitionMap.put("/css/**", "anon");
+        filterChainDefinitionMap.put("/js/**", "anon");
+        filterChainDefinitionMap.put("/img/**", "anon");
+        filterChainDefinitionMap.put("/druid/**", "anon");
         //解锁用户专用 测试用的
         filterChainDefinitionMap.put("/unlockAccount","anon");
-        //验证码请求授权
         filterChainDefinitionMap.put("/Captcha.jpg","anon");
         // 设置登录的URL为匿名访问，因为一开始没有用户验证
         filterChainDefinitionMap.put("/login", "anon");
@@ -176,6 +175,18 @@ public class ShiroConfig {
      * @param securityManager
      * @return
      */
+    /**
+     * 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证
+     * 配置以下两个bean(DefaultAdvisorAutoProxyCreator(可选)和AuthorizationAttributeSourceAdvisor)即可实现此功能
+     * @return
+     */
+    @Bean
+    @DependsOn({"lifecycleBeanPostProcessor"})
+    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator(){
+        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        advisorAutoProxyCreator.setProxyTargetClass(true);
+        return advisorAutoProxyCreator;
+    }
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(@Qualifier("securityManager") SecurityManager securityManager){
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
@@ -206,21 +217,21 @@ public class ShiroConfig {
      * 解决spring-boot Whitelabel Error Page
      * @return
      */
-    @Bean
-    public EmbeddedServletContainerCustomizer containerCustomizer() {
-
-        return new EmbeddedServletContainerCustomizer() {
-            @Override
-            public void customize(ConfigurableEmbeddedServletContainer container) {
-
-                ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/unauthorized.html");
-                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
-                ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
-
-                container.addErrorPages(error401Page, error404Page, error500Page);
-            }
-        };
-    }
+//    @Bean
+//    public EmbeddedServletContainerCustomizer containerCustomizer() {
+//
+//        return new EmbeddedServletContainerCustomizer() {
+//            @Override
+//            public void customize(ConfigurableEmbeddedServletContainer container) {
+//
+//                ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/unauthorized.html");
+//                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
+//                ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
+//
+//                container.addErrorPages(error401Page, error404Page, error500Page);
+//            }
+//        };
+//    }
 
     /**
      * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义
@@ -276,7 +287,7 @@ public class ShiroConfig {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
         redisCacheManager.setRedisManager(redisManager());
         //redis中针对不同用户缓存
-        redisCacheManager.setPrincipalIdFieldName("username");
+        redisCacheManager.setPrincipalIdFieldName("userName");
         //用户权限信息缓存时间
         redisCacheManager.setExpire(200000);
         return redisCacheManager;
@@ -426,11 +437,11 @@ public class ShiroConfig {
 
         //如果密码加密,可以打开下面配置
         //加密算法的名称
-         retryLimitHashedCredentialsMatcher.setHashAlgorithmName("MD5");
+        retryLimitHashedCredentialsMatcher.setHashAlgorithmName("MD5");
         //配置加密的次数
-         retryLimitHashedCredentialsMatcher.setHashIterations(2);
+        retryLimitHashedCredentialsMatcher.setHashIterations(2);
         //是否存储为16进制
-         retryLimitHashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
+        retryLimitHashedCredentialsMatcher.setStoredCredentialsHexEncoded(true);
 
         return retryLimitHashedCredentialsMatcher;
     }

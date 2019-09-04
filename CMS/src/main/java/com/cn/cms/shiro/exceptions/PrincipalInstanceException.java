@@ -5,7 +5,7 @@ package com.cn.cms.shiro.exceptions;
  * @description: PrincipalInstanceException
  * @create: 2019/8/29-14:25
  **/
-public class PrincipalInstanceException extends RuntimeException {
+public class PrincipalInstanceException extends RuntimeException  {
 
     private static final String MESSAGE = "We need a field to identify this Cache Object in Redis. "
             + "So you need to defined an id field which you can get unique id to identify this principal. "

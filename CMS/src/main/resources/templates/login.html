@@ -1,126 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-	<head>
-	<meta charset="UTF-8" />
-	<title>login</title>
-
-
-	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-	<link rel="shortcut icon" href="favicon.ico"/>
-
-	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'/>
-
-	<link rel="stylesheet" type="text/css" th:href="@{/thirdparty/system/css/bootstrap.css}"/>
-	<link rel="stylesheet" type="text/css" th:href="@{/thirdparty/system/css/animate.css}"/>
-	<link rel="stylesheet" type="text/css" th:href="@{/thirdparty/system/css/style.css}"/>
-
-
-	</head>
-	<body class="style-3">
-
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4 col-md-push-8">
-
-
-					<!-- Start Sign In Form -->
-					<form id="myForm" action="/login" method="post"  class="fh5co-form animate-box" data-animate-effect="fadeInRight">
-						<h2>CMS登录中心</h2>
-						<div class="form-group">
-							<label for="loginName" class="sr-only">loginName</label>
-							<input type="text" class="text form-control" id="loginName" placeholder="用户名"
-								   name="loginName" tabindex="1" th:value="${loginName}"/>
-						</div>
-						<div class="form-group">
-							<label for="password" class="sr-only">Password</label>
-							<input type="password" class="text form-control" id="passWord" placeholder="密码"
-								   name="passWord" tabindex="2"/>
-						</div>
-				        <div class="form-group">
-							<input type="text" class="text form-control " style="vertical-align:middle;" id="captcha" name="captcha" placeholder="验证码"/>
-							<br/>
-							<img alt="验证码" th:src="@{/Captcha.jpg}" title="点击更换" id="captcha_img" style="vertical-align:middle"/>
-							<a href="javascript:void(0)" onclick="javascript:refreshCaptcha()">换一张</a>
-						</div>
-
-						<div class="form-group">
-							<label for="rememberMe"><input type="checkbox" id="rememberMe" name="rememberMe"/> Remember Me</label>
-						</div>
-
-						<div class="form-group">
-							<p>Not registered? <a href="sign-up3.html">Sign Up</a> | <a href="forgot3.html">Forgot Password?</a></p>
-						</div>
-						<div class="form-group">
-							<input type="submit" value="登  录" class="btn btn-primary"/>
-						</div>
-						<span th:text="${msg}" style="margin-left:13px;color: red;"></span>
-					</form>
-					<!-- END Sign In Form -->
-
-
-				</div>
-			</div>
-			<div class="row" style="padding-top: 60px; clear: both;">
-				<div class="col-md-12 text-center"><p><small>&copy; All Rights Reserved. More Templates <a href="" target="_blank" title=""></a> - Collect from <a href="#" title="" target="_blank">CMS</a></small></p></div>
-			</div>
-		</div>
-		<!-- JS Scripts-->
-		<div th:replace="/common/common_js :: base_js"></div>
-		<div th:replace="/common/common_js :: bootstrapvalidator_js"></div>
-		<script th:inline="javascript">
-			$("#myForm").bootstrapValidator({
-				message: 'This value is not valid',
-				feedbackIcons: {
-					valid: 'glyphicon glyphicon-ok',
-					invalid: 'glyphicon glyphicon-remove',
-					validating: 'glyphicon glyphicon-refresh'
-				},
-				fields: {
-					//用户名不为空校验
-					loginName: {
-						message: '账户验证失败',
-						validators: {
-							notEmpty: {
-								message: '*必填'
-							}
-						}
-					},
-					//密码不为空校验
-					passWord: {
-						message: '密码验证失败',
-						validators: {
-							notEmpty: {
-								message: '*必填'
-							}
-						}
-					},
-					//密码不为空校验
-					captcha: {
-						message: '验证码验证失败',
-						validators: {
-							notEmpty: {
-								message: '*必填'
-							}
-						}
-					},
-				},
-			});
-
-
-			function kickout(){
-				var href=location.href;
-				if(href.indexOf("kickout")>0){
-					alert("您的账号在另一台设备上登录,如非本人操作，请立即修改密码！");
-				}
-			}
-			window.onload=kickout();
-
-			function refreshCaptcha(){
-				$("#captcha_img").attr("src","/Captcha.jpg?id=" + new Date() + Math.floor(Math.random()*24));
-			}
-		</script>
-
-
-	</body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+</head>
+<body>
+<h1>欢迎登录</h1>
+<h1 th:if="${msg != null }" th:text="${msg}" style="color: red"></h1>
+<form action="/login" method="post">
+    用户名：<input type="text" name="loginName"/><br/>
+    密码：<input type="password" name="passWord"/><br/>
+    <input type="checkbox" name="rememberMe" />记住我<br/>
+    <input type="submit" value="提交"/>
+</form>
+</body>
 </html>
-

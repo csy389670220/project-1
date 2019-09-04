@@ -5,7 +5,6 @@ import com.cn.cms.model.Permission;
 import com.cn.cms.model.SysUser;
 
 import java.util.List;
-
 public interface SysUserMapper {
     /**
      * 删除用户

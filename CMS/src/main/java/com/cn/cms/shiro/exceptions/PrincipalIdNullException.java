@@ -5,7 +5,7 @@ package com.cn.cms.shiro.exceptions;
  * @description: PrincipalIdNullException
  * @create: 2019/8/29-14:23
  **/
-public class PrincipalIdNullException extends RuntimeException {
+public class PrincipalIdNullException extends RuntimeException  {
 
     private static final String MESSAGE = "Principal Id shouldn't be null!";
 
