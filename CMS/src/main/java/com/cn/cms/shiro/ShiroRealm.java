@@ -14,11 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 /**
- * @author: wangsaichao
- * @date: 2018/5/10
- * @description: 在Shiro中，最终是通过Realm来获取应用程序中的用户、角色及权限信息的
+ * @author: Farben
+ * @description: ShiroRealm:在Shiro中，最终是通过Realm来获取应用程序中的用户、角色及权限信息的
  * 在Realm中会直接从我们的数据源中获取Shiro需要的验证信息。可以说，Realm是专用于安全框架的DAO.
- */
+ * @create: 2019/9/5-9:52
+ **/
 public class ShiroRealm extends AuthorizingRealm {
 
     @Autowired

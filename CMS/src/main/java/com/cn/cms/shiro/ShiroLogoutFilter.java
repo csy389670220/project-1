@@ -10,10 +10,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
- * @author: wangsaichao
- * @date: 2018/11/27
- * @description: 自定义 LogoutFilter
- */
+ * @author: Farben
+ * @description: ShiroLogoutFilter: 自定义 LogoutFilter
+ * @create: 2019/9/5-9:52
+ **/
 public class ShiroLogoutFilter extends LogoutFilter {
     private  KickoutSessionControlFilter kickoutSessionControlFilter;
 

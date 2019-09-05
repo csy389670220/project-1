@@ -4,9 +4,7 @@ import java.security.MessageDigest;
 
 /**
  * @author: Farben
- *
  * @description: MD5-工具类
- *
  * @create: 2019/8/21-10:18
  **/
 public class MD5 {

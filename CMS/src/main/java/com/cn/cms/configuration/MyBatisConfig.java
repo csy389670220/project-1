@@ -13,7 +13,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-
+/**
+ * @author: Farben
+ * @description: MyBatisConfig：数据库配置
+ * @create: 2019/9/4-17:59
+ **/
 @Configuration
 @EnableTransactionManagement
 public class MyBatisConfig {

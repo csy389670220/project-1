@@ -2,7 +2,7 @@ package com.cn.cms.controller;
 
 import com.cn.cms.mapper.SysUserMapper;
 import com.cn.cms.model.SysUser;
-import com.cn.cms.shiro.ShiroRealm;
+import com.cn.cms.shiro.RedisSessionDAO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -10,7 +10,6 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,8 @@ import javax.servlet.http.HttpServletRequest;
 public class LoginController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
+    @Autowired
+    private RedisSessionDAO redisSessionDAO;
 
     @Autowired
     SysUserMapper sysUserMapper;
@@ -126,6 +127,7 @@ public class LoginController extends BaseController {
             ModelAndView view = new ModelAndView("index");
             SysUser user = sysUserMapper.selectByLoginName(loginName);
             view.addObject("user", user);
+            view.addObject("count",redisSessionDAO.getKickoutSessionSize());
             return view;
         }
 
@@ -155,38 +157,6 @@ public class LoginController extends BaseController {
         return("add..............");
     }
 
-    /**
-     * 权限增加测试
-     * @return
-     */
-    @RequestMapping(value = "/addPer")
-    @ResponseBody
-    @RequiresPermissions("sys_user_add")
-    public String addPer() {
-        //添加成功之后 清除缓存
-        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager)SecurityUtils.getSecurityManager();
-        ShiroRealm shiroRealm = (ShiroRealm) securityManager.getRealms().iterator().next();
-        //清除权限 相关的缓存
-        shiroRealm.clearAllCache();
-        return("addPer OK");
-    }
-
-    /**
-     * 权限增加删除
-     * @return
-     */
-    @RequestMapping(value = "/delPer")
-    @ResponseBody
-    @RequiresPermissions("sys_user_del")
-    public String delPer() {
-        //添加成功之后 清除缓存
-        DefaultWebSecurityManager securityManager = (DefaultWebSecurityManager)SecurityUtils.getSecurityManager();
-        ShiroRealm shiroRealm = (ShiroRealm) securityManager.getRealms().iterator().next();
-        //清除权限 相关的缓存
-        shiroRealm.clearAllCache();
-
-        return("delPer OK");
-    }
 
 
 }

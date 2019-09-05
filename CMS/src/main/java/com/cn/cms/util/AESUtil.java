@@ -10,9 +10,7 @@ import java.security.SecureRandom;
 
 /**
  * @author: Farben
- *
  * @description: AESUtil-cryp加密解密类
- *
  * @create: 2019/8/21-10:17
  **/
 public class AESUtil {

@@ -10,9 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author: Farben
- *
  * @description: CheckUtil:检查工具类
- *
  * @create: 2019/8/21-10:17
  **/
 public class CheckUtil {

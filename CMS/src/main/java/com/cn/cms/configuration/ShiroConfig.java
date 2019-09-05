@@ -19,9 +19,13 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
+import org.springframework.boot.web.server.ConfigurableWebServerFactory;
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import javax.servlet.Filter;
@@ -31,10 +35,10 @@ import java.util.LinkedHashMap;
 import java.util.Properties;
 
 /**
- * @author: wangsaichao
- * @date: 2018/5/10
- * @description: Shiro配置
- */
+ * @author: Farben
+ * @description: ShiroConfig: Shiro配置
+ * @create: 2019/9/5-9:53
+ **/
 @Configuration
 public class ShiroConfig {
 
@@ -172,12 +176,8 @@ public class ShiroConfig {
      * 开启shiro 注解模式
      * 可以在controller中的方法前加上注解
      * 如 @RequiresPermissions("userInfo:add")
-     * @param securityManager
-     * @return
-     */
-    /**
      * 开启Shiro的注解(如@RequiresRoles,@RequiresPermissions),需借助SpringAOP扫描使用Shiro注解的类,并在必要时进行安全逻辑验证
-     * 配置以下两个bean(DefaultAdvisorAutoProxyCreator(可选)和AuthorizationAttributeSourceAdvisor)即可实现此功能
+     * 配置以下两个bean(DefaultAdvisorAutoProxyCreator和AuthorizationAttributeSourceAdvisor)即可实现此功能
      * @return
      */
     @Bean
@@ -217,21 +217,18 @@ public class ShiroConfig {
      * 解决spring-boot Whitelabel Error Page
      * @return
      */
-//    @Bean
-//    public EmbeddedServletContainerCustomizer containerCustomizer() {
-//
-//        return new EmbeddedServletContainerCustomizer() {
-//            @Override
-//            public void customize(ConfigurableEmbeddedServletContainer container) {
-//
-//                ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/unauthorized.html");
-//                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
-//                ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
-//
-//                container.addErrorPages(error401Page, error404Page, error500Page);
-//            }
-//        };
-//    }
+    @Bean
+    public WebServerFactoryCustomizer<ConfigurableWebServerFactory> webServerFactoryCustomizer(){
+        return new WebServerFactoryCustomizer<ConfigurableWebServerFactory>() {
+            @Override
+            public void customize(ConfigurableWebServerFactory factory) {
+                ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/unauthorized.html");
+                ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
+                ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
+                factory.addErrorPages(error401Page, error404Page, error500Page);
+            }
+        };
+    }
 
     /**
      * cookie对象;会话Cookie模板 ,默认为: JSESSIONID 问题: 与SERVLET容器名冲突,重新定义为sid或rememberMe，自定义
@@ -331,6 +328,11 @@ public class ShiroConfig {
         return redisManager;
     }
 
+    /**
+     * 自定义RedisSessionDAO必须配置sessionFactory
+     * 否则报错：org.apache.shiro.session.UnknownSessionException: There is no session with id [
+     * @return
+     */
     @Bean("sessionFactory")
     public ShiroSessionFactory sessionFactory(){
         ShiroSessionFactory sessionFactory = new ShiroSessionFactory();

@@ -11,10 +11,10 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 /**
- * @author: wangsaichao
- * @date: 2018/11/27
- * @description: 解决 SimpleByteSource 无法序列化的问题
- */
+ * @author: Farben
+ * @description: MyByteSource:解决 SimpleByteSource 无法序列化的问题
+ * @create: 2019/9/5-9:51
+ **/
 public class MyByteSource implements ByteSource,Serializable {
 
     private byte[] bytes;

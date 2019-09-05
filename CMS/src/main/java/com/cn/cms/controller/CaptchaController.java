@@ -13,10 +13,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 /**
- * @author: wangsaichao
- * @date: 2018/5/26
- * @description:
- */
+ * @author: Farben
+ * @description: CaptchaController:验证码请求类
+ * @create: 2019/9/5-9:51
+ **/
 @Controller
 public class CaptchaController {
 
