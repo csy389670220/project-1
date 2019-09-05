@@ -2,6 +2,7 @@ package com.cn.cms.controller;
 
 import com.cn.cms.mapper.SysUserMapper;
 import com.cn.cms.model.SysUser;
+import com.cn.cms.service.PsidService;
 import com.cn.cms.shiro.RedisSessionDAO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -37,6 +38,9 @@ public class LoginController extends BaseController {
     @Autowired
     SysUserMapper sysUserMapper;
 
+    @Autowired
+    PsidService psidService;
+
 
     /**
      * 访问项目根路径
@@ -57,6 +61,8 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login() {
         ModelAndView view = new ModelAndView("login");
+        String result=psidService.sayHiFromClientOne("程思雨");
+        logger.info("springcloud info:{}",result);
         return view;
     }
 
@@ -92,19 +98,20 @@ public class LoginController extends BaseController {
         } catch (Exception e) {
             //登录失败从request中获取shiro处理的异常信息 shiroLoginFailure:就是shiro异常类的全类名
             String exception = (String) request.getAttribute("shiroLoginFailure");
-
+            String msg=exception;
             if (e instanceof UnknownAccountException) {
-                model.addAttribute("msg", "用户名或密码错误！");
+                msg="用户名或密码错误!";
+                model.addAttribute("msg", msg);
             }
-
             if (e instanceof IncorrectCredentialsException) {
-                model.addAttribute("msg", "用户名或密码错误！");
+                msg="用户名或密码错误！";
+                model.addAttribute("msg", msg);
             }
-
             if (e instanceof LockedAccountException) {
-                model.addAttribute("msg", "账号已被锁定,请联系管理员！");
+                msg="账号已被锁定,请联系管理员！";
+                model.addAttribute("msg", msg);
             }
-            logger.info("登录系统错误,登录名:{},错误:{}", loginName, e);
+            logger.info("登录系统错误,登录名:{},错误原因:{}", loginName, msg);
             //返回登录页面
             return "login";
         }

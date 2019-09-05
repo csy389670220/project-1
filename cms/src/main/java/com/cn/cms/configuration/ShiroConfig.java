@@ -76,6 +76,8 @@ public class ShiroConfig {
         // 配置访问权限 必须是LinkedHashMap，因为它必须保证有序
         // 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 --> : 这是一个坑，一不小心代码就不好使了
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        //springcloud-config放行
+        filterChainDefinitionMap.put("/actuator/bus-refresh", "anon");
         // 静态资源生效
         filterChainDefinitionMap.put("/thirdparty/**", "anon");
         //验证码请求
@@ -201,8 +203,8 @@ public class ShiroConfig {
         SimpleMappingExceptionResolver simpleMappingExceptionResolver=new SimpleMappingExceptionResolver();
         Properties properties=new Properties();
         //这里的 /unauthorized 是页面，不是访问的路径
-        properties.setProperty("org.apache.shiro.authz.UnauthorizedException","/unauthorized");
-        properties.setProperty("org.apache.shiro.authz.UnauthenticatedException","/unauthorized");
+        properties.setProperty("org.apache.shiro.authz.UnauthorizedException","unauthorized");
+        properties.setProperty("org.apache.shiro.authz.UnauthenticatedException","unauthorized");
         simpleMappingExceptionResolver.setExceptionMappings(properties);
         return simpleMappingExceptionResolver;
     }

@@ -66,46 +66,46 @@
 			</div>
 		</div>
 		<!-- JS Scripts-->
-		<div th:replace="/common/common_js :: base_js"></div>
-		<div th:replace="/common/common_js :: bootstrapvalidator_js"></div>
+		<div th:replace="common/common_js :: base_js"></div>
+		<div th:replace="common/common_js :: bootstrapvalidator_js"></div>
 		<script th:inline="javascript">
-			// $("#myForm").bootstrapValidator({
-			// 	message: 'This value is not valid',
-			// 	feedbackIcons: {
-			// 		valid: 'glyphicon glyphicon-ok',
-			// 		invalid: 'glyphicon glyphicon-remove',
-			// 		validating: 'glyphicon glyphicon-refresh'
-			// 	},
-			// 	fields: {
-			// 		//用户名不为空校验
-			// 		loginName: {
-			// 			message: '账户验证失败',
-			// 			validators: {
-			// 				notEmpty: {
-			// 					message: '*必填'
-			// 				}
-			// 			}
-			// 		},
-			// 		//密码不为空校验
-			// 		passWord: {
-			// 			message: '密码验证失败',
-			// 			validators: {
-			// 				notEmpty: {
-			// 					message: '*必填'
-			// 				}
-			// 			}
-			// 		},
-			// 		//密码不为空校验
-			// 		captcha: {
-			// 			message: '验证码验证失败',
-			// 			validators: {
-			// 				notEmpty: {
-			// 					message: '*必填'
-			// 				}
-			// 			}
-			// 		},
-			// 	},
-			// });
+			$("#myForm").bootstrapValidator({
+				message: 'This value is not valid',
+				feedbackIcons: {
+					valid: 'glyphicon glyphicon-ok',
+					invalid: 'glyphicon glyphicon-remove',
+					validating: 'glyphicon glyphicon-refresh'
+				},
+				fields: {
+					//用户名不为空校验
+					loginName: {
+						message: '账户验证失败',
+						validators: {
+							notEmpty: {
+								message: '*必填'
+							}
+						}
+					},
+					//密码不为空校验
+					passWord: {
+						message: '密码验证失败',
+						validators: {
+							notEmpty: {
+								message: '*必填'
+							}
+						}
+					},
+					//密码不为空校验
+					captcha: {
+						message: '验证码验证失败',
+						validators: {
+							notEmpty: {
+								message: '*必填'
+							}
+						}
+					},
+				},
+			});
 
 
 			function kickout(){
