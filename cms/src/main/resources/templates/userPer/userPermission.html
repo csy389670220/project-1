@@ -5,81 +5,97 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta charset="UTF-8"/>
     <title>用户权限管理</title>
-
+    <div th:replace="common/common_css :: base_css"></div>
 </head>
 <body>
-<div class="check-div form-inline ">
-    <div class="col-xs-16">
-        <label>角色：</label>
-        <input id="roleName" th:value="${role.roleName}" class="form-control input-sm"
-               type="text"/>
-        <label  style="margin-left: 13px;">状态：</label>
-        <select id="roleStatus" th:value="${role.roleStatus}" class="form-control"  style="height: 34px">
-            <option value="" ></option>
-            <option value="1" th:selected="${role.roleStatus == '1'}">正常</option>
-            <option value="0" th:selected="${role.roleStatus == '0'}">失效</option>
-        </select>
-        <button class="btn btn-white btn-lg" type="button" onclick="query()" style="margin-left: 66%;">查 询</button>
-    </div>
-</div>
-<div id="page-wrapper">
-    <div id="page-inner">
-        <div class="row">
-            <div class="col-md-12">
-                <!-- Advanced Tables -->
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <button  shiro:hasPermission="role_per_add" class="btn btn-yellow btn-xs" data-toggle="modal"
-                                data-target="#addSource" onclick="treeView('treeView_add')" >添加资源
-                        </button>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover" id="dataTables-example">
-                                <thead>
-                                <tr>
-                                    <th>角色</th>
-                                    <th>描述</th>
-                                    <th>状态</th>
-                                    <th>创建时间</th>
-                                    <th>更新时间</th>
-                                    <th>操作</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr class="gradeU" th:each="role : ${result.data.list}">
-                                    <td th:text="${role.roleName}"></td>
-                                    <td th:text="${role.roleDesc}"></td>
-                                    <td th:if="${role.roleStatus} eq 1">正常</td>
-                                    <td th:if="${role.roleStatus} eq 0">失效</td>
-                                    <td th:text="${#dates.format(role.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-                                    <td th:text="${#dates.format(role.updateTime,'yyyy-MM-dd HH:mm:ss')}"></td>
-                                    <td>
-                                        <button shiro:hasPermission="role_per_update" class="btn btn-success btn-xs" data-toggle="modal"
-                                                data-target="#changeSource"
-                                                th:onclick="'javascript:showUpdateRole(\''+${role.id}+'\',\''+${role.roleName}+'\',\''+${role.roleDesc}+'\')'">修改
-                                        </button>
-                                        <button shiro:hasPermission="role_per_del"  th:disabled="${role.roleStatus} eq 0" class="btn btn-danger btn-xs" data-toggle="modal"
-                                                data-target="#deleteSource" th:onclick="'javascript:saveDelId('+${role.id}+')'" >删除
-                                        </button>
+<!--界面顶部显示区域-->
+<div th:replace="common/common_body :: body_top"></div>
+<div id="wrapper">
+    <!--页面左侧菜单栏-->
+    <div th:replace="common/common_body :: body_left"></div>
 
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div id="example" style="text-align: center">
-                                <ul id="pageLimit"></ul>
+    <div id="rightContent">
+        <div class="check-div form-inline ">
+            <div class="col-xs-16">
+                <label>角色：</label>
+                <input id="roleName" th:value="${role.roleName}" class="form-control input-sm"
+                       type="text"/>
+                <label style="margin-left: 13px;">状态：</label>
+                <select id="roleStatus" th:value="${role.roleStatus}" class="form-control" style="height: 34px">
+                    <option value=""></option>
+                    <option value="1" th:selected="${role.roleStatus == '1'}">正常</option>
+                    <option value="0" th:selected="${role.roleStatus == '0'}">失效</option>
+                </select>
+                <button class="btn btn-white btn-lg" type="button" onclick="query()" style="margin-left: 66%;">查 询
+                </button>
+            </div>
+        </div>
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Advanced Tables -->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <button shiro:hasPermission="role_per_add" class="btn btn-yellow btn-xs"
+                                        data-toggle="modal"
+                                        data-target="#addSource" onclick="treeView('treeView_add')">添加资源
+                                </button>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover"
+                                           id="dataTables-example">
+                                        <thead>
+                                        <tr>
+                                            <th>角色</th>
+                                            <th>描述</th>
+                                            <th>状态</th>
+                                            <th>创建时间</th>
+                                            <th>更新时间</th>
+                                            <th>操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="gradeU" th:each="role : ${result.data.list}">
+                                            <td th:text="${role.roleName}"></td>
+                                            <td th:text="${role.roleDesc}"></td>
+                                            <td th:if="${role.roleStatus} eq 1">正常</td>
+                                            <td th:if="${role.roleStatus} eq 0">失效</td>
+                                            <td th:text="${#dates.format(role.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                            <td th:text="${#dates.format(role.updateTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                            <td>
+                                                <button shiro:hasPermission="role_per_update"
+                                                        class="btn btn-success btn-xs" data-toggle="modal"
+                                                        data-target="#changeSource"
+                                                        th:onclick="showUpdateRole([[${role.id}]],[[${role.roleName}]] ,[[${role.roleDesc}]]);">
+                                                    修改
+                                                </button>
+                                                <button shiro:hasPermission="role_per_del"
+                                                        th:disabled="${role.roleStatus} eq 0"
+                                                        class="btn btn-danger btn-xs" data-toggle="modal"
+                                                        data-target="#deleteSource"
+                                                        th:onclick="saveDelId([[${role.id}]])">删除
+                                                </button>
+
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div id="example" style="text-align: center">
+                                        <ul id="pageLimit"></ul>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
-
+                        <!--End Advanced Tables -->
                     </div>
                 </div>
-                <!--End Advanced Tables -->
             </div>
         </div>
     </div>
 </div>
-
 <!--新增角色弹出窗口-->
 <div class="modal fade" id="addSource" role="dialog" aria-labelledby="gridSystemModalLabel">
     <div class="modal-dialog" role="document">
@@ -93,19 +109,19 @@
                 <div class="container-fluid">
                     <form class="form-horizontal">
                         <div class="form-group ">
-                            <label  class="col-xs-3 control-label">角色：</label>
+                            <label class="col-xs-3 control-label">角色：</label>
                             <div class="col-xs-8 ">
                                 <input class="form-control input-sm duiqi" id="roleName_add" placeholder=""/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label  class="col-xs-3 control-label">描述：</label>
+                            <label class="col-xs-3 control-label">描述：</label>
                             <div class="col-xs-8 ">
                                 <input type="" class="form-control input-sm duiqi" id="roleDesc_add" placeholder=""/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label  class="col-xs-3 control-label">权限：</label>
+                            <label class="col-xs-3 control-label">权限：</label>
                             <div class="col-xs-8" id="treeView_add">
                             </div>
                         </div>
@@ -140,20 +156,20 @@
                 <div class="container-fluid">
                     <form class="form-horizontal">
                         <div class="form-group ">
-                            <label  class="col-xs-3 control-label">角色：</label>
+                            <label class="col-xs-3 control-label">角色：</label>
                             <div class="col-xs-8 ">
                                 <input id="id_update" type="hidden"/>
                                 <input class="form-control input-sm duiqi" id="roleName_update" placeholder=""/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label  class="col-xs-3 control-label">描述：</label>
+                            <label class="col-xs-3 control-label">描述：</label>
                             <div class="col-xs-8 ">
                                 <input type="" class="form-control input-sm duiqi" id="roleDesc_update" placeholder=""/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label  class="col-xs-3 control-label">权限：</label>
+                            <label class="col-xs-3 control-label">权限：</label>
                             <div class="col-xs-8" id="treeView_update">
                             </div>
                         </div>
@@ -189,7 +205,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <input id="id_del" type="hidden" />
+                <input id="id_del" type="hidden"/>
                 <button type="button" class="btn btn-xs btn-white" data-dismiss="modal">取 消</button>
                 <button type="button" class="btn btn-xs btn-danger" data-dismiss="modal" onclick="deleteById()">
                     确 定
@@ -203,10 +219,13 @@
 <!-- /.modal -->
 
 <!-- JS Scripts-->
-<div th:replace="/common/common_js :: bootstrapPaginator_js"></div>
-<div th:replace="/common/common_js :: bootstrapTree_js"></div>
+<div th:replace="common/common_js :: base_js"></div>
+<div th:replace="common/common_js :: bootstrapPaginator_js"></div>
+<div th:replace="common/common_js :: bootstrapTree_js"></div>
 <script th:inline="javascript">
     $(document).ready(function () {
+        //选中菜单栏
+        cmsSystem.menu.active("userPer");
         //分页插件初始化
         var element = $('#pageLimit');//对应下面ul的ID
         var options = {
@@ -222,7 +241,7 @@
                 $('#rightContent').load("userPer/query", {
                     "pageNum": page,
                     "userName": roleName,
-                    "roleStatus":roleStatus
+                    "roleStatus": roleStatus
                 });
             },
             itemTexts: function (type, page, current) {//如下的代码是将页眉显示的中文显示我们自定义的中文。
@@ -247,36 +266,24 @@
     function query() {
         var roleName = $("#roleName").val();
         var roleStatus = $("#roleStatus").val();
-        $.ajax({
-            url: "userPer/query",
-            type: "post",    //不区分大小写
-            data: {"pageNum": 1, "roleName": roleName,"roleStatus":roleStatus},
-            datatype: 'json',
-            success: function (view) {
-                $('#rightContent').empty();
-                $('#rightContent').append(view);
-            },
-            error: function (xhr) {
-                alert("查询错误");
-            }
-        });
+        cmsSystem.doPost("query",{"pageNum": 1, "roleName": roleName, "roleStatus": roleStatus})
     }
 
 
-    function treeView(viewId,roleId) {
+    function treeView(viewId, roleId) {
         $.ajax({
-            url: "userPer/treeInit",
+            url: "treeInit",
             type: "post",    //不区分大小写
-            data: {"id":roleId},
+            data: {"id": roleId},
             datatype: 'json',
             success: function (result) {
-                    if(viewId=="treeView_add"){
-                        $('#treeView_update').empty();
-                    }else if(viewId=="treeView_update"){
-                        $('#treeView_add').empty();
-                    }
-                    $('#'+viewId).empty();
-                    $('#'+viewId).append(result);
+                if (viewId == "treeView_add") {
+                    $('#treeView_update').empty();
+                } else if (viewId == "treeView_update") {
+                    $('#treeView_add').empty();
+                }
+                $('#' + viewId).empty();
+                $('#' + viewId).append(result);
             },
             error: function (err) {
                 alert("tree初始化系统错误");
@@ -287,7 +294,7 @@
 
     function getTreeCkeckId() {
         var ts = [];
-        var checks=$("#treeview-checkable").treeview('getChecked');
+        var checks = $("#treeview-checkable").treeview('getChecked');
         $.each(checks, function (index, value) {
             ts.push(value.id)
         });
@@ -295,19 +302,21 @@
     }
 
     function roleAdd() {
-        var permissions=getTreeCkeckId();
+        var permissions = getTreeCkeckId();
         $.ajax({
-            url: "userPer/add",
+            url: "add",
             type: "post",    //不区分大小写
-            traditional:true,
-            data: {"sysId":$("#sysId").val(),"roleName": $("#roleName_add").val(),
-                "roleDesc": $("#roleDesc_add").val(),"permissions":permissions},
+            traditional: true,
+            data: {
+                "roleName": $("#roleName_add").val(),
+                "roleDesc": $("#roleDesc_add").val(), "permissions": permissions
+            },
             datatype: 'json',
             success: function (result) {
-                if(result.code=="success"){
+                if (result.code == "success") {
                     query();
-                }else {
-                    errorMsg(result.code,result.msg);
+                } else {
+                    errorMsg(result.code, result.data);
                 }
 
             },
@@ -319,21 +328,22 @@
     }
 
 
-    function  saveDelId(id) {
+    function saveDelId(id) {
         $("#id_del").val(id);
     }
-    function deleteById(){
+
+    function deleteById() {
         $.ajax({
-            url: "userPer/del",
+            url: "del",
             type: "post",    //不区分大小写
-            traditional:true,
-            data: {"sysId":$("#sysId").val(),"id": $("#id_del").val()},
+            traditional: true,
+            data: { "id": $("#id_del").val()},
             datatype: 'json',
             success: function (result) {
-                if(result.code=="success"){
+                if (result.code == "success") {
                     query();
-                }else {
-                    errorMsg(result.code,result.msg);
+                } else {
+                    errorMsg(result.code, result.data);
                 }
 
             },
@@ -345,27 +355,31 @@
     }
 
 
-    function showUpdateRole(roleId,roleName,roleDesc) {
+    function showUpdateRole(roleId, roleName, roleDesc) {
         $("#id_update").val(roleId);
         $("#roleName_update").val(roleName);
         $("#roleDesc_update").val(roleDesc);
-        treeView("treeView_update",roleId);
+        treeView("treeView_update", roleId);
     }
 
     function updateRole() {
-        var permissions=getTreeCkeckId();
+        var permissions = getTreeCkeckId();
         $.ajax({
-            url: "userPer/update",
+            url: "update",
             type: "post",    //不区分大小写
-            traditional:true,
-            data: {"sysId":$("#sysId").val(),"id": $("#id_update").val(),
-                "roleName": $("#roleName_update").val(),"roleDesc": $("#roleDesc_update").val(),"permissions": permissions},
+            traditional: true,
+            data: {
+                "id": $("#id_update").val(),
+                "roleName": $("#roleName_update").val(),
+                "roleDesc": $("#roleDesc_update").val(),
+                "permissions": permissions
+            },
             datatype: 'json',
             success: function (result) {
-                if(result.code=="success"){
+                if (result.code == "success") {
                     query();
-                }else {
-                    errorMsg(result.code,result.msg);
+                } else {
+                    errorMsg(result.code, result.data);
                 }
 
             },

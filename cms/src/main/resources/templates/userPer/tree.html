@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta charset="UTF-8"/>
     <title>用户权限管理</title>
-    <div th:replace="/common/common_css :: bootstrapTree_css"></div>
+    <div th:replace="common/common_css :: bootstrapTree_css"></div>
     <style type="text/css">
         .treeview .list-group-item.node-checked {
             color: blue;
@@ -19,7 +19,7 @@
 </div>
 
 <!-- JS Scripts-->
-<div th:replace="/common/common_js :: bootstrapTree_js"></div>
+<div th:replace="common/common_js :: bootstrapTree_js"></div>
 <script th:inline="javascript">
     $(function () {
         var defaultData=getPerList();

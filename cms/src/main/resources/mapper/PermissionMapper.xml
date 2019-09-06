@@ -92,7 +92,7 @@
     where ID = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectAllPer" resultMap="BaseResultMap" parameterType="com.cn.cms.modelVo.PermissionVo" >
+  <select id="selectAllPer" resultMap="BaseResultMap" parameterType="com.cn.cms.model.Permission" >
     select
     <include refid="Base_Column_List" />
     from t_permission

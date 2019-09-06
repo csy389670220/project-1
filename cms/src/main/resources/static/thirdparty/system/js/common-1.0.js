@@ -11,13 +11,13 @@ $(function () {
         window.location.href = "/index"; //跳转到欢迎页面
     });
     $("#sysUser").click(function () {
-        window.location.href = "/index1";//
+        window.location.href = "/sysUser/query";//系统用户管理
     });
     $("#userPer").click(function () {
-        window.location.href = "/CMS/userInfo/query";//
+        window.location.href = "/userPer/query";//角色管理
     });
     $("#seckill").click(function () {
-        window.location.href = "/seckill/query";//
+        window.location.href = "/seckill/query";//秒杀列表页
     });
 
     $("#blackplans").click(function () {
@@ -34,11 +34,32 @@ function errorMsg(code, msg) {
 // javascript 模块化
 //主要优化了秒杀模块js
 var cmsSystem = {
+    //get请求
+    doGet: function (url) {
+        window.location.href = url;
+    },
+    //post请求
+    doPost: function (url, PARAMS) {
+        var temp = document.createElement("form");
+        temp.action = url;
+        temp.method = "post";
+        temp.style.display = "none";
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    },
+
     //选择菜单栏
     menu: {
-        active:function (menuId) {
+        active: function (menuId) {
             $(".meun-item").removeClass("meun-item-active");
-            $("#"+menuId).addClass("meun-item-active");
+            $("#" + menuId).addClass("meun-item-active");
         }
     },
     //页面模块
@@ -64,8 +85,8 @@ var cmsSystem = {
     seckill: {
         url: {
             //秒杀详情页url
-            detailUrl: function ( seckillId) {
-                return  seckillId + "/detail";
+            detailUrl: function (seckillId) {
+                return seckillId + "/detail";
             },
             //获取当前系统时间url
             getNowTimeUrl: function () {

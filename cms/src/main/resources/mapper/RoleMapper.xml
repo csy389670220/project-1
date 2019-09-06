@@ -12,7 +12,7 @@
     <result column="UPDATE_USER" property="updateUser" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID , ROLE_NAME , ROLE_DESC , ROLE_STATUS , CREATE_TIME , CREATE_USER , UPDATE_TIME , UPDATE_USER
+    ID id, ROLE_NAME roleName, ROLE_DESC roleDesc, ROLE_STATUS roleStatus, CREATE_TIME createTime, CREATE_USER createUser, UPDATE_TIME updateTime, UPDATE_USER updateUser
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

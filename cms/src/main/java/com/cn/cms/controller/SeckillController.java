@@ -30,12 +30,6 @@ public class SeckillController extends BaseController {
     @Autowired
     SeckillService seckillService;
 
-    @ModelAttribute
-    public void getSysUserId(){
-        sysId= (Integer) SecurityUtils.getSubject().getSession().getAttribute("sysId");
-        logger.debug("SeckillController getSysUserId:{}",sysId);
-    }
-
     @RequestMapping(value = "/query")
     public ModelAndView query() {
         ModelAndView modelAndView = new ModelAndView("skill/skill");
@@ -46,6 +40,7 @@ public class SeckillController extends BaseController {
 
     @RequestMapping(value = "/{seckillId}/detail",method = RequestMethod.GET)
     public ModelAndView detail(@PathVariable("seckillId") Integer seckillId) {
+        Integer sysId= (Integer) SecurityUtils.getSubject().getSession().getAttribute("sysId");
         ModelAndView modelAndView = new ModelAndView("skill/detail");
         ItemSeckillVo itemSeckillVo = seckillService.getById(sysId,seckillId);
         modelAndView.addObject("itemSeckillVo", itemSeckillVo);
@@ -80,6 +75,7 @@ public class SeckillController extends BaseController {
                                        @RequestParam("itemId") Integer itemId,
                                        @RequestParam("seckillId") Integer seckillId  ){
         try {
+            Integer sysId= (Integer) SecurityUtils.getSubject().getSession().getAttribute("sysId");
             Map<String, Object> result=seckillService.executeSeckill(itemId,seckillId,sysId,md5);
             return result;
 
@@ -104,7 +100,7 @@ public class SeckillController extends BaseController {
     public Map<String, Object> executeProducer(@PathVariable("md5") String md5,
                                                @RequestParam("itemId") Integer itemId,
                                                @RequestParam("seckillId") Integer seckillId ){
-
+        Integer sysId= (Integer) SecurityUtils.getSubject().getSession().getAttribute("sysId");
        return seckillService.executeSeckillProducer(itemId,seckillId,sysId,md5);
     }
 
