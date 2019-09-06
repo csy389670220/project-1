@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RefreshScope
 public class ConfigClientServiceImpl implements ConfigClientService {
-    @Value("${label}")
     private String label;
 
     @Override

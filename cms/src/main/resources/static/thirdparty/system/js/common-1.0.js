@@ -17,7 +17,7 @@ $(function () {
         window.location.href = "/CMS/userInfo/query";//
     });
     $("#seckill").click(function () {
-        window.location.href = "/CMS/index";//
+        window.location.href = "/seckill/query";//
     });
 
     $("#blackplans").click(function () {
@@ -64,24 +64,24 @@ var cmsSystem = {
     seckill: {
         url: {
             //秒杀详情页url
-            detailUrl: function (userId, seckillId) {
-                return "seckill/" + userId + "/" + seckillId + "/detail";
+            detailUrl: function ( seckillId) {
+                return  seckillId + "/detail";
             },
             //获取当前系统时间url
             getNowTimeUrl: function () {
-                return "seckill/time/now";
+                return "../time/now";
             },
             //获取秒杀暴露地址url
             exposerUrl: function (seckillId) {
-                return "seckill/" + seckillId + "/exposer";
+                return "../" + seckillId + "/exposer";
             },
             //执行秒杀url
             executionUrl: function (url) {
-                return "seckill/" + url + "/execution";
+                return "../" + url + "/execution";
             },
             //执行秒杀url(存储过程)
             executionProducerUrl: function (url) {
-                return "seckill/" + url + "/executionProducer";
+                return "../" + url + "/executionProducer";
             }
         }
 

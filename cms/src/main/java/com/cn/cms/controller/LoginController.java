@@ -2,7 +2,6 @@ package com.cn.cms.controller;
 
 import com.cn.cms.mapper.SysUserMapper;
 import com.cn.cms.model.SysUser;
-import com.cn.cms.service.PsidService;
 import com.cn.cms.shiro.RedisSessionDAO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -29,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * @create: 2019/8/30-13:36
  **/
 @Controller
-public class LoginController extends BaseController {
+public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
@@ -38,8 +37,6 @@ public class LoginController extends BaseController {
     @Autowired
     SysUserMapper sysUserMapper;
 
-    @Autowired
-    PsidService psidService;
 
 
     /**
@@ -48,9 +45,14 @@ public class LoginController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView root() {
-        ModelAndView view = new ModelAndView("login");
-        return view;
+    public String root() {
+        Subject subject = SecurityUtils.getSubject();
+        String loginName=(String) subject.getPrincipal();
+        if (loginName == null){
+            return "redirect:login";
+        }else{
+            return "redirect:index";
+        }
     }
 
     /**
@@ -59,11 +61,14 @@ public class LoginController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView login() {
-        ModelAndView view = new ModelAndView("login");
-        String result=psidService.sayHiFromClientOne("程思雨");
-        logger.info("springcloud info:{}",result);
-        return view;
+    public String login() {
+        Subject subject = SecurityUtils.getSubject();
+        String loginName=(String) subject.getPrincipal();
+        if (loginName == null){
+            return "login";
+        }else{
+            return "redirect:index";
+        }
     }
 
     /**
@@ -134,7 +139,9 @@ public class LoginController extends BaseController {
             ModelAndView view = new ModelAndView("index");
             SysUser user = sysUserMapper.selectByLoginName(loginName);
             view.addObject("user", user);
+            subject.getSession().setAttribute("sysId",user.getId());
             view.addObject("count",redisSessionDAO.getKickoutSessionSize());
+            logger.debug("用户：{}，登录成功",user.getId());
             return view;
         }
 
@@ -160,8 +167,7 @@ public class LoginController extends BaseController {
     @ResponseBody
     @RequiresPermissions("sys_user_add_test")
     public String add() {
-        System.out.println("test add");
-        return("add..............");
+        return("sys_user_add_test");
     }
 
 

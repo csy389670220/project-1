@@ -1,6 +1,8 @@
 package com.cn.cms.controller;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.io.Serializable;
 
@@ -12,7 +14,7 @@ import java.io.Serializable;
 @Controller
 public class BaseController implements Serializable {
     public static  final int PAGESIZE=5;//分页查询，页面条目数量
-
+    public static Integer sysId;//登录用户的系统ID
 
 
 

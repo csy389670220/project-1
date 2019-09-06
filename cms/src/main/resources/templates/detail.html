@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8"/>
+    <title>商品秒杀详情</title>
+    <div th:replace="common/common_css :: base_css"></div>
+</head>
+<body>
+<!--界面顶部显示区域-->
+<div th:replace="common/common_body :: body_top"></div>
+<div id="wrapper">
+    <!--页面左侧菜单栏-->
+    <div th:replace="common/common_body :: body_left"></div>
+
+    <div id="rightContent">
+        detail.html
+    </div>
+</div>
+
+
+<!-- JS Scripts-->
+<!-- JS Scripts-->
+<div th:replace="common/common_js :: base_js"></div>
+<div th:replace="common/common_js :: bootstrapPaginator_js"></div>
+<!-- jquery.countdown 倒计时插件 -->
+<script type="text/javascript" th:src="@{/thirdparty/system/js/jquery.countdown.js}"></script>
+<script th:inline="javascript">
+
+
+</script>
+
+</body>
+</html>

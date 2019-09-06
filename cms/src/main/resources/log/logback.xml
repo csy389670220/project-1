@@ -22,7 +22,7 @@
         </encoder>
         <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>debug</level>
+            <level>info</level>
         </filter>
     </appender>
 
@@ -168,7 +168,7 @@
 
     <!--开发环境:打印控制台-->
     <springProfile name="dev">
-        <root level="info">
+        <root level="debug">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="DEBUG_FILE" />
             <appender-ref ref="INFO_FILE" />
@@ -179,7 +179,7 @@
 
     <!--测试环境:打印控制台和输出到文件-->
     <springProfile name="uat">
-        <root level="info">
+        <root level="debug">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="DEBUG_FILE" />
             <appender-ref ref="INFO_FILE" />
@@ -190,7 +190,7 @@
 
     <!--生产环境:输出到文件-->
     <springProfile name="prod">
-        <root level="error">
+        <root level="debug">
             <appender-ref ref="CONSOLE" />
             <appender-ref ref="DEBUG_FILE" />
             <appender-ref ref="INFO_FILE" />
