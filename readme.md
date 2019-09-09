@@ -1,7 +1,1 @@
-整合框架:springboot+shiro+springcloud+RabbitMQ
-数据库：mysql+redis
-
-项目说明：
-  服务提供者：
-  注册中心：
-  web项目：
+cms是项目源码,cms_server是注册中心，服务提供，配置服务端，配置客户端的jar，可以直接运行配合cms的业务。
