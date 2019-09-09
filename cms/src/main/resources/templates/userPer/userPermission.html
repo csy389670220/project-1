@@ -238,7 +238,7 @@
             onPageClicked: function (event, originalEvent, type, page) {
                 var roleName = $("#roleName").val();
                 var roleStatus = $("#roleStatus").val();
-                $('#rightContent').load("userPer/query", {
+                cmsSystem.doPost("query", {
                     "pageNum": page,
                     "userName": roleName,
                     "roleStatus": roleStatus
