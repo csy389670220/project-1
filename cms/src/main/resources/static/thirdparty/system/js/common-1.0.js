@@ -20,8 +20,8 @@ $(function () {
         window.location.href = "/seckill/query";//秒杀列表页
     });
 
-    $("#blackplans").click(function () {
-        window.location.href = "/CMS/index";//
+    $("#saveHtml").click(function () {
+        window.location.href = "/saveHtml/query";//
     });
 
 });
@@ -106,6 +106,15 @@ var cmsSystem = {
             }
         }
 
+    },
+    saveHtml:{
+        url:{
+            //生成index1页面url
+            saveIndex1:function () {
+                return "./save/index1";
+            }
+
+        }
     }
 
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="UTF-8"/>
+    <title>用户信息</title>
+    <div th:replace="common/common_css :: base_css"></div>
+</head>
+<body>
+<!--界面顶部显示区域-->
+<div th:replace="common/common_body :: body_top"></div>
+<div id="wrapper">
+    <!--页面左侧菜单栏-->
+    <div th:replace="common/common_body :: body_left"></div>
+
+    <div id="rightContent">
+        <div class="check-div form-inline ">
+            <div class="col-xs-16">
+                <label>生成index1页面：</label>
+                <button class="btn btn-white btn-lg" type="button" onclick="saveIndex1()" style="margin-left: 0%;">确 定
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<!-- JS Scripts-->
+<div th:replace="common/common_js :: base_js"></div>
+<div th:replace="common/common_js :: bootstrapPaginator_js"></div>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        //选中菜单栏
+        cmsSystem.menu.active("saveHtml");
+    });
+
+
+    function saveIndex1() {
+        $.ajax({
+            url: cmsSystem.saveHtml.url.saveIndex1(),
+            type: "post",    //不区分大小写
+            success: function (result) {
+                alert(result)
+
+            },
+            error: function (e) {
+                alert("生成index1页面系统错误");
+                console.log(err);
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

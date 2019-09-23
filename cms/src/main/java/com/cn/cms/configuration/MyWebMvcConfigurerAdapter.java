@@ -1,5 +1,6 @@
 package com.cn.cms.configuration;
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
@@ -55,4 +56,18 @@ public class MyWebMvcConfigurerAdapter implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/static/");
     }
 
+
+    /**
+     * 将返回的页面响应，写入指定路径下的文件
+     * @return
+     */
+    @Bean
+    public FilterRegistrationBean filterRegist1() {
+        FilterRegistrationBean frBean = new FilterRegistrationBean();
+        frBean.setFilter(new IdealSaveHtmlFilter());
+        frBean.addUrlPatterns("/saveHtml/save/*");
+        frBean.setOrder(1);
+        System.out.println("IdealSaveHtmlFilter");
+        return frBean;
+    }
 }
