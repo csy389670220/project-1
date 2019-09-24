@@ -16,13 +16,35 @@
 
     <div id="rightContent">
         <div class="check-div form-inline ">
-            <div class="col-xs-16">
+            <div class="col-xs-8">
                 <label>生成index1页面：</label>
                 <button class="btn btn-white btn-lg" type="button" onclick="saveIndex1()" style="margin-left: 0%;">确 定
                 </button>
             </div>
+            <div class="col-xs-8">
+                <label>  镶嵌index1页面：</label>
+                <button class="btn btn-white btn-lg" type="button" onclick="insertModel()" style="margin-left: 0%;">确 定
+                </button>
+            </div>
         </div>
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Advanced Tables -->
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div  id="insertModel" class="table-responsive">
 
+                                </div>
+
+                            </div>
+                        </div>
+                        <!--End Advanced Tables -->
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
@@ -48,6 +70,22 @@
             },
             error: function (e) {
                 alert("生成index1页面系统错误");
+                console.log(err);
+            }
+        });
+    }
+    
+    function insertModel() {
+        $.ajax({
+            url: cmsSystem.saveHtml.url.getView(),
+            type: "post",    //不区分大小写
+            success: function (view) {
+                $("#insertModel").empty();
+                $("#insertModel").append(view);
+                alert("插入index1页面成功");
+            },
+            error: function (e) {
+                alert("插入index1页面系统错误");
                 console.log(err);
             }
         });

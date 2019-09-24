@@ -10,127 +10,38 @@ import java.io.*;
 public class FileUtil {
 
     /**
-     * 按行读取文件
+     * 将文档转换成string
      */
-    public static void ReadFileByLine(String filename) {
+    public static String ReadFileToTxt(String filename) {
+        String str = "";
         File file = new File(filename);
-        InputStream is = null;
-        Reader reader = null;
-        BufferedReader bufferedReader = null;
+        FileInputStream in = null;
         try {
-            is = new FileInputStream(file);
-            reader = new InputStreamReader(is);
-            bufferedReader = new BufferedReader(reader);
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            in = new FileInputStream(file);
+            // size 为字串的长度 ，这里一次性读完
+            int size = in.available();
+            byte[] buffer = new byte[size];
+            in.read(buffer);
+            str = new String(buffer, "UTF-8");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
-                if (null != bufferedReader)
-                    bufferedReader.close();
-                if (null != reader)
-                    reader.close();
-                if (null != is)
-                    is.close();
+                if (in != null) {
+                    in.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        return str;
     }
 
-    /**
-     * 按字节读取文件
-     * 
-     * @param filename
-     */
-    public static void ReadFileByBytes(String filename) {
-        File file = new File(filename);
-        InputStream is = null;
-        try {
-            is = new FileInputStream(file);
-            int index = 0;
-            while (-1 != (index = is.read())) {
-                System.out.write(index);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            try {
-                if (null != is)
-                    is.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        System.out.println("-----------------------------------");
-        try {
-            is = new FileInputStream(file);
-            byte[] tempbyte = new byte[1000];
-            int index = 0;
-            while (-1 != (index = is.read(tempbyte))) {
-                System.out.write(tempbyte, 0, index);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } finally {
-            try {
-                if (null != is)
-                    is.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * 按字符读取文件
-     * 
-     * @param filename
-     */
-    public static void ReadFileByChar(String filename) {
-        File file = new File(filename);
-        InputStream is = null;
-        Reader isr = null;
-        try {
-            is = new FileInputStream(file);
-            isr = new InputStreamReader(is);
-            int index = 0;
-            while (-1 != (index = isr.read())) {
-                System.out.print((char) index);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (null != is)
-                    is.close();
-                if (null != isr)
-                    isr.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     /**
      * 通过OutputStreamWriter写文件
-     * 
+     *
      * @param filename
      */
     public static void Write2FileByOutputStream(String filename) {
@@ -171,10 +82,10 @@ public class FileUtil {
 
     /**
      * 通过BufferedWriter写文件
-     * 
+     *
      * @param filename
      */
-    public static void Write2FileByBuffered(String filename,String str) {
+    public static void Write2FileByBuffered(String filename, String str) {
         File file = new File(filename);
         FileOutputStream fos = null;
         OutputStreamWriter osw = null;
@@ -218,7 +129,7 @@ public class FileUtil {
 
     /**
      * 通过FileWriter写文件
-     * 
+     *
      * @param filename
      */
     public static void Write2FileByFileWriter(String filename) {
@@ -242,5 +153,6 @@ public class FileUtil {
             }
         }
     }
-    
+
+
 }

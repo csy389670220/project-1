@@ -9,12 +9,12 @@
 </head>
 <body>
 <!--界面顶部显示区域-->
-        <div th:replace="common/common_body :: body_top"></div>
-        <div id="wrapper">
-            <!--页面左侧菜单栏-->
-            <div th:replace="common/common_body :: body_left"></div>
+<div th:replace="common/common_body :: body_top"></div>
+<div id="wrapper">
+    <!--页面左侧菜单栏-->
+    <div th:replace="common/common_body :: body_left"></div>
 
-            <div id="rightContent">
+    <div id="rightContent">
         <div class="check-div form-inline ">
             <div class="col-xs-16">
                 <label>用户名：</label>
@@ -291,7 +291,7 @@
                 var userName = $("#userName1").val();
                 var loginName = $("#loginName").val();
                 var userStatus = $("#userStatus").val();
-                cmsSystem.doPost("query",{
+                cmsSystem.doPost("query", {
                     "pageNum": page,
                     "userName": userName,
                     "loginName": loginName,
@@ -322,7 +322,12 @@
         var userName = $("#userName1").val();
         var loginName = $("#loginName").val();
         var userStatus = $("#userStatus").val();
-        cmsSystem.doPost("query",{"pageNum": 1, "userName": userName, "loginName": loginName, "userStatus": userStatus})
+        cmsSystem.doPost("query", {
+            "pageNum": 1,
+            "userName": userName,
+            "loginName": loginName,
+            "userStatus": userStatus
+        })
     }
 
 

@@ -112,6 +112,9 @@ var cmsSystem = {
             //生成index1页面url
             saveIndex1:function () {
                 return "./save/index1";
+            },
+            getView:function () {
+                return "./save/getView";
             }
 
         }

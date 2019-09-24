@@ -72,7 +72,7 @@ public class MyWebMvcConfigurerAdapter implements WebMvcConfigurer {
     }
 
     /**
-     * 将返回的页面响应，写入指定路径下的文件
+     * 指定请求响应进行压缩
      * @return
      */
     @Bean
