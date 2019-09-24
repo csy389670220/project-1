@@ -8,7 +8,7 @@ import java.io.PrintWriter;
  
 /**
  * @author: Farben
- * @description: ResponseWrapper: 使用HttpServletResponseWrapper包装HttpServletResponse
+ * @description: ResponseWrapper: 使用HttpServletResponseWrapper包装HttpServletResponse，配合IdealSaveHtmlFilter拦截器
  * @create: 2019/9/23-15:58
  **/
 public class ResponseWrapper extends HttpServletResponseWrapper {

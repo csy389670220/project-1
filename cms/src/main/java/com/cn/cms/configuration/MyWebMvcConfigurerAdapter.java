@@ -70,4 +70,19 @@ public class MyWebMvcConfigurerAdapter implements WebMvcConfigurer {
         System.out.println("IdealSaveHtmlFilter");
         return frBean;
     }
+
+    /**
+     * 将返回的页面响应，写入指定路径下的文件
+     * @return
+     */
+    @Bean
+    public FilterRegistrationBean filterRegist2() {
+        FilterRegistrationBean frBean = new FilterRegistrationBean();
+        frBean.setFilter(new GzipFilter());
+        frBean.addUrlPatterns("/seckill/*");
+        frBean.addUrlPatterns("*.js");
+        frBean.setOrder(1);
+        System.out.println("GzipFilter");
+        return frBean;
+    }
 }

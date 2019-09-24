@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 /**
  * @author: Farben
- * @description: IdealSaveHtmlFilter:拦截IDEAL镶嵌日志监控系统静态页面的生成请求
+ * @description: IdealSaveHtmlFilter:IDEAL镶嵌日志监控系统静态页面的生成拦截器
  * @create: 2019/9/23-16:02
  **/
 public class IdealSaveHtmlFilter implements Filter {
