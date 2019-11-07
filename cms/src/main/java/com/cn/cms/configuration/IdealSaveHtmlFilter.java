@@ -37,6 +37,7 @@ public class IdealSaveHtmlFilter implements Filter {
             try {
                 //取返回的json串
                 String result = responseWrapper.getResult();
+                result=result.replaceAll("\r|\n","");//删除换行符
                 // 写入文件
                 FileUtil.Write2FileByBuffered("C:\\Users\\Farben\\Desktop\\001.html",result);
                 out.write("OK");

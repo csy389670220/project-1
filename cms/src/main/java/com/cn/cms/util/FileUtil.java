@@ -12,7 +12,7 @@ public class FileUtil {
     /**
      * 将文档转换成string
      */
-    public static String ReadFileToTxt(String filename) {
+    public static String ReadFileToString(String filename) {
         String str = "";
         File file = new File(filename);
         FileInputStream in = null;
@@ -37,6 +37,7 @@ public class FileUtil {
 
         return str;
     }
+
 
 
     /**

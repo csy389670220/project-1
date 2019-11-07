@@ -69,7 +69,7 @@ public class SaveHtmlController {
     @RequestMapping(value = "/save/getView")
     @ResponseBody
     public String getView() {
-        String view = FileUtil.ReadFileToTxt("C:\\Users\\Farben\\Desktop\\001.html");
+        String view = FileUtil.ReadFileToString("C:\\Users\\Farben\\Desktop\\001.html");
         IDEALVIEW = view;
         return view;
 
